@@ -1,39 +1,42 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const request = require('request');
 const compression = require('compression');
+const axios = require('axios');
+
+const carouselEP = 'http://34.233.106.94/api/images/';
+const reviewsEP = 'http://ec2-18-223-135-118.us-east-2.compute.amazonaws.com/api/reviews/'
+const checkoutEP = 'http://ec2-18-223-214-235.us-east-2.compute.amazonaws.com/api/checkout/'
 
 app.use(compression());
-app.use(express.static(__dirname + '/../public/'));
-app.use(bodyParser.json());
+app.use('/:id',express.static(__dirname + '/../public/'));
 
-// app.use((req,res,next) => {
-//   console.log(req.url);
-//   let proxy = 'http://ec2-3-83-149-86.compute-1.amazonaws.com:3016' + req.url;
-//   console.log(proxy);
-//   request(proxy).pipe(res);
-//   next()
-// }, (req,res,next) => {
-//     console.log('ari, ',req.url);
-//     let proxy = 'http://ec2-13-59-251-226.us-east-2.compute.amazonaws.com' + req.url;
-//     console.log(proxy);
-//     request(proxy).pipe(res);
-// });
-app.use((req, res, next) => {
- res.header("Access-Control-Allow-Origin", "*");
- res.header(
-   "Access-Control-Allow-Headers",
-   "Origin, X-Requested-With, Content-Type, Accept"
- );
- next();
+app.get('/api/images/:id', function (req, res) {
+  let id = req.params.id;
+  axios.get(carouselEP + id).then((result) => {
+    res.send(result.data)
+  }).catch((err) => {
+    console.log("Error getting images", err)
+  })
 });
-// app.use((req,res, next) => {
-//   console.log(req.url);
-//   let proxy = 'http://ec2-3-83-149-86.compute-1.amazonaws.com:3016' + req.url;
-//   console.log(proxy);
-//   request(proxy).pipe(res);
-// });
+
+app.get('/api/checkout/:id', function (req, res) {
+  let id = req.params.id;
+  axios.get(checkoutEP + id).then((result) => {
+    res.send(result.data)
+  }).catch((err) => {
+    console.log("Error getting images", err)
+  })
+});
+
+app.get('/api/reviews/:id', function (req, res) {
+  let id = req.params.id;
+  axios.get(reviewsEP + id).then((result) => {
+    res.send(result.data)
+  }).catch((err) => {
+    console.log("Error getting reviews", err)
+  })
+});
+
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
