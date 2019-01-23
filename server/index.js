@@ -8,6 +8,9 @@ const reviewsEP = 'http://ec2-18-223-135-118.us-east-2.compute.amazonaws.com/api
 const checkoutEP = 'http://ec2-18-223-214-235.us-east-2.compute.amazonaws.com/api/checkout/'
 
 app.use(compression());
+
+app.use('/',express.static(__dirname + '/../public/'));
+
 app.use('/:id',express.static(__dirname + '/../public/'));
 
 app.get('/api/images/:id', function (req, res) {
