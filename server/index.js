@@ -3,7 +3,7 @@ const app = express();
 const compression = require('compression');
 const axios = require('axios');
 
-const carouselEP = 'http://172.31.91.24/api/images/';
+const carouselEP = 'http://172.31.93.84/api/images/';
 const reviewsEP = 'http://ec2-18-223-135-118.us-east-2.compute.amazonaws.com/api/reviews/'
 const checkoutEP = 'http://ec2-18-223-214-235.us-east-2.compute.amazonaws.com/api/checkout/'
 
